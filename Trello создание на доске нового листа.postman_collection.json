@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "3cdb2bc3-ba23-4c1b-ae84-56ac29578fc8",
+		"name": "Trello создание на доске нового листа",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25319995"
+	},
+	"item": [
+		{
+			"name": "Создание доски без дефолдных значений с рандомом назнания",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var key = \"id\"\r",
+							"var value = pm.response.json().id\r",
+							"\r",
+							"pm.collectionVariables.set(key, value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token={{Mytoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"defaultLists\": false,\r\n    \"token\": \"{{Mytoken}}\",\r\n    \"name\": \"{{$randomAlphaNumeric}}\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://trello.com/1/boards/",
+					"protocol": "https",
+					"host": [
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получение данных о последней созданной доске со скриптом запоминания id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token={{Mytoken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://trello.com/1/boards/{{id}}",
+					"protocol": "https",
+					"host": [
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создания листа в созданной доске",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token={{Mytoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\": \"{{Mytoken}}\",\r\n    \"name\": \"Заголовок темы\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://trello.com/1/boards/{{id}}/lists",
+					"protocol": "https",
+					"host": [
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						"{{id}}",
+						"lists"
+					]
+				},
+				"description": "Create a new List on a Board."
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/boards/:id/lists?name=<string>&pos=top&key=<API Key>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boards",
+								":id",
+								"lists"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "<string>",
+									"description": "(Required) The name of the list to be created. 1 to 16384 characters long."
+								},
+								{
+									"key": "pos",
+									"value": "top",
+									"description": "Determines the position of the list. Valid values: `top`, `bottom`, or a positive number."
+								},
+								{
+									"key": "key",
+									"value": "<API Key>",
+									"description": "Added as a part of security scheme: apikey"
+								}
+							],
+							"variable": [
+								{
+									"key": "id"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"id\": \"80EE3a09E0d31c7aC337e6B2\",\n  \"name\": \"<string>\",\n  \"closed\": \"<boolean>\",\n  \"pos\": \"<number>\",\n  \"softLimit\": \"<string>\",\n  \"idBoard\": \"<string>\",\n  \"subscribed\": \"<boolean>\",\n  \"limits\": {\n    \"attachments\": {\n      \"perBoard\": {\n        \"status\": \"warning\",\n        \"disableAt\": \"<number>\",\n        \"warnAt\": \"<number>\"\n      }\n    }\n  }\n}"
+				}
+			]
+		},
+		{
+			"name": "Удаление доски со скриптом запоминания id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token={{Mytoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\": \"{{Mytoken}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://trello.com/1/boards/{{id}}",
+					"protocol": "https",
+					"host": [
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Mytoken",
+			"value": "5c136aca634ed31ba7cf5b6f/ATTS4I3SGajH87zWZifQfSfVmzeLwSn9XotfnwNvGbbIHnbJkbd60oNqgT1wIfiN5Mde7938A3D9",
+			"type": "string"
+		},
+		{
+			"key": "tmpID",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": ""
+		}
+	]
+}
